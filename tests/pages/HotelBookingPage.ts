@@ -76,25 +76,14 @@ export class HotelBookingPage {
   }
 
   async getErrorMessages() {
-    // Check for various alert/error message elements
-    try {
-      const alert = this.page.locator('role=alert');
-      if (await alert.isVisible({ timeout: 1000 })) {
-        const text = await alert.textContent();
-        return text && text.trim().length > 0 ? text.trim() : null;
-      }
-    } catch {}
-    
-    try {
-      // Also check for error list items
-      const errorList = this.page.locator('role=alert li');
-      if (await errorList.first().isVisible({ timeout: 1000 })) {
-        const text = await errorList.first().textContent();
-        return text && text.trim().length > 0 ? text.trim() : null;
-      }
-    } catch {}
-    
-    return null;
+    const errorItem = this.page.locator('[role="alert"] li').first();
+
+    await errorItem.waitFor({
+      state: 'visible',
+      timeout: 5000
+    });
+
+    return (await errorItem.innerText()).trim();
   }
 
   async isPhoneFieldValid() {

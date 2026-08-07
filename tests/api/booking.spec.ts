@@ -46,4 +46,18 @@ test.describe('API Tests - Booking Endpoints', () => {
     expect(roomsResponse.status).toBe(200);
     expect(roomsResponse.hasContent).toBe(true);
   });
+
+test('[API] Should reject booking creation with invalid payload', async () => {
+
+    const invalidBooking = {
+        firstname: '',
+        lastname: '',
+        totalprice: null
+    };
+
+    const response = await ApiHelper.createBooking(invalidBooking);
+
+    expect([400,401,403]).toContain(response.status);
+});
+
 });
