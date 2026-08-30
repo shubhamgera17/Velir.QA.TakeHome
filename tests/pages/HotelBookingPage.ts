@@ -75,16 +75,17 @@ export class HotelBookingPage {
     await this.page.waitForLoadState('networkidle');
   }
 
-  async getErrorMessages() {
-    const errorItem = this.page.locator('[role="alert"] li').first();
+async getErrorMessages() {
+  const errorItem = this.page.locator('[role="alert"] li').first();
 
-    await errorItem.waitFor({
-      state: 'visible',
-      timeout: 5000
-    });
+  const visible = await errorItem.isVisible().catch(() => false);
 
-    return (await errorItem.innerText()).trim();
+  if (!visible) {
+    return null;
   }
+
+  return (await errorItem.innerText()).trim();
+}
 
   async isPhoneFieldValid() {
     const phoneInput = this.page.locator(this.phoneInput);

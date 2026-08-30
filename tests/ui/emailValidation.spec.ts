@@ -10,7 +10,7 @@ test.describe('UI Tests - Email Validation', () => {
     await hotelBookingPage.navigateToRoomBooking(1);
   });
 
-  test('[NEGATIVE] Should show validation error for invalid email address', async () => {
+  test('[NEGATIVE] Should show validation error for invalid email address', async ({ page }) => {
 
     // Arrange
     const firstName = 'John';
@@ -31,10 +31,12 @@ test.describe('UI Tests - Email Validation', () => {
     await hotelBookingPage.submitBooking();
 
     // Assert
+    await expect(page.locator('[role="alert"] li')).toBeVisible();
+
     const validationMessage = await hotelBookingPage.getErrorMessages();
 
     expect(validationMessage).toContain(
-      'must be a well-formed email address'
+        "must be a well-formed email address"
     );
   });
 });

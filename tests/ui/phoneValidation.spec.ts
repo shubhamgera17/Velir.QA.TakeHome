@@ -10,7 +10,7 @@ test.describe('UI Tests - Phone Validation', () => {
     await hotelBookingPage.navigateToRoomBooking(1);
   });
 
-  test('[NEGATIVE] Should show validation error for phone number shorter than minimum length', async () => {
+  test('[NEGATIVE] Should show validation error for phone number shorter than minimum length', async ({ page }) => {
 
     // Arrange
     const firstName = 'John';
@@ -31,10 +31,12 @@ test.describe('UI Tests - Phone Validation', () => {
     await hotelBookingPage.submitBooking();
 
     // Assert
+    await expect(page.locator('[role="alert"] li')).toBeVisible();
+
     const validationMessage = await hotelBookingPage.getErrorMessages();
 
     expect(validationMessage).toContain(
-      'size must be between 11 and 21'
+        "size must be between 11 and 21"
     );
   });
 });
