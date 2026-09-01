@@ -58,22 +58,7 @@ This improves confidence that invalid phone numbers are correctly rejected befor
 
 ---
 
-## 3. Improved Error Message Helper
-
-While implementing the new UI tests, I noticed that the existing helper responsible for reading validation messages did not reliably retrieve the displayed error text.
-
-After inspecting the DOM, I found that validation messages are rendered inside the `<li>` element within the alert container.
-
-I updated the helper to:
-- Wait until the validation message becomes visible
-- Read the actual validation text from the correct DOM element
-- Simplify the implementation by removing unnecessary logic
-
-This improvement makes validation handling more reliable for future UI tests.
-
----
-
-## 4. Added API Negative Test
+## 3. Added API Negative Test
 
 Added an API test to verify that the booking endpoint rejects an invalid booking payload.
 
